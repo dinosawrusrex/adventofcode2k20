@@ -4,7 +4,7 @@ import re
 ENTRY = namedtuple('ENTRY', 'min, max, character, password')
 RULE = re.compile('(\d+)-(\d+) ([a-z]): ([a-z]+)')
 
-def parse_passwords(database: list) -> list:
+def parse_database(database: list) -> list:
     return (
         ENTRY(
             int(RULE.match(entry).group(1)),
@@ -15,23 +15,19 @@ def parse_passwords(database: list) -> list:
     )
 
 def count_valid_rule_one(database: list) -> int:
-    count = 0
-    for entry in parse_passwords(database):
-        if entry.min <= entry.password.count(entry.character) <= entry.max:
-            count += 1
-    return count
+    return len(list(filter(
+        lambda e: e.min <= e.password.count(e.character) <= e.max,
+        parse_database(database)
+    )))
 
 def count_valid_rule_two(database: list) -> int:
-    count = 0
-    for entry in parse_passwords(database):
-        # Exclusive or: bool(a) != bool(b)
-        if (
-            (entry.password[entry.min-1] == entry.character) !=
-            (entry.password[entry.max-1] == entry.character)
-        ):
-            count += 1
-
-    return count
+    return len(list(filter(
+        lambda e: (
+            (e.password[e.min-1] == e.character) !=
+            (e.password[e.max-1] == e.character)
+        ),
+        parse_database(database)
+    )))
 
 
 if __name__ == '__main__':
