@@ -1,12 +1,17 @@
 import itertools
 import math
+import typing
 
 
-def multiply_combination_if_sum_to_2020(numbers, number_in_combination):
+def multiply_combination_if_sum_to_2020(
+        numbers: typing.Iterable[int],
+        number_in_combination: int
+) -> int:
 
     for combo in itertools.combinations(numbers, number_in_combination):
         if sum(combo) == 2020:
             return math.prod(combo)
+    return 0
 
 
 if __name__ == '__main__':
