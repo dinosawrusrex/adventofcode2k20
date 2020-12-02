@@ -1,10 +1,11 @@
 from collections import namedtuple
 import re
+import typing
 
 ENTRY = namedtuple('ENTRY', 'min, max, character, password')
 RULE = re.compile('(\d+)-(\d+) ([a-z]): ([a-z]+)')
 
-def parse_database(database: list) -> list:
+def parse_database(database: typing.List[str]) -> typing.Generator:
     return (
         ENTRY(
             int(RULE.match(entry).group(1)),
@@ -14,13 +15,13 @@ def parse_database(database: list) -> list:
         ) for entry in database
     )
 
-def count_valid_rule_one(database: list) -> int:
+def count_valid_rule_one(database: typing.List[str]) -> int:
     return len(list(filter(
         lambda e: e.min <= e.password.count(e.character) <= e.max,
         parse_database(database)
     )))
 
-def count_valid_rule_two(database: list) -> int:
+def count_valid_rule_two(database: typing.List[str]) -> int:
     return len(list(filter(
         lambda e: (
             (e.password[e.min-1] == e.character) !=
