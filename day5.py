@@ -9,7 +9,7 @@ def seat_id(bsp):
 
 def get_my_seat_id(all_seat_ids):
     # 1024 derivation:
-    # max for row is 127 (2**7), max for col is 7 (2**3)
+    # max for row is 127 (2**7 - 1), max for col is 7 (2**3 - 1)
     # (127 * 8) + 8 = 1024
     for seat in range(1024):
         if all((
