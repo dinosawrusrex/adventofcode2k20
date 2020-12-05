@@ -1,23 +1,22 @@
 def binary_search(bsp):
-    return sum(
-        2**exponent
-        for exponent, char in zip(range(len(bsp)-1, -1, -1), bsp)
-        if char in 'BR'
+    return int(
+        bsp.replace('F', '0').replace('L', '0').replace('B', '1').replace('R', '1'),
+        2
     )
 
-def row_and_column(bsp):
-    return binary_search(bsp[:7]), binary_search(bsp[7:])
+def seat_id(bsp):
+    return (binary_search(bsp[:7]) * 8) + binary_search(bsp[7:])
 
-def seat_id(row_column):
-    return (row_column[0] * 8) + row_column[1]
-
-def empty_remaining_seats(seats):
-    return {(row, col) for row in range(1, 127) for col in range(0, 6)}.difference(seats)
-
-def get_my_seat_id(all_seat_ids, remaining_seats):
-    for row_column in remaining_seats:
-        seat = seat_id(row_column)
-        if seat-1 in all_seat_ids and seat+1 in all_seat_ids:
+def get_my_seat_id(all_seat_ids):
+    # 1024 derivation:
+    # max for row is 127 (2**7), max for col is 7 (2**3)
+    # (127 * 8) + 8 = 1024
+    for seat in range(1024):
+        if all((
+            seat not in all_seat_ids,
+            seat-1 in all_seat_ids,
+            seat+1 in all_seat_ids
+        )):
             return seat
 
 
@@ -25,17 +24,16 @@ if __name__ == '__main__':
     test = 'FBFBBFFRLR'
     assert binary_search(test[:7]) == 44
     assert binary_search(test[7:]) == 5
-    assert seat_id(row_and_column(test)) == 357
+    assert seat_id(test) == 357
 
-    assert seat_id(row_and_column('BFFFBBFRRR')) == 567
-    assert seat_id(row_and_column('FFFBBBFRRR')) == 119
-    assert seat_id(row_and_column('BBFFBBFRLL')) == 820
+    assert seat_id('BFFFBBFRRR') == 567
+    assert seat_id('FFFBBBFRRR') == 119
+    assert seat_id('BBFFBBFRLL') == 820
 
     with open('inputs/day5.txt') as f:
         bsps = (bsp.strip() for bsp in f.readlines() if bsp)
 
-    seats = {row_and_column(bsp) for bsp in bsps}
-    all_seat_ids = [seat_id(seat) for seat in seats]
+    all_seat_ids = [seat_id(bsp) for bsp in bsps]
 
     assert max(all_seat_ids) == 838
-    assert get_my_seat_id(all_seat_ids, empty_remaining_seats(seats)) == 714
+    assert get_my_seat_id(all_seat_ids) == 714
