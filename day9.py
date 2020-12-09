@@ -2,6 +2,7 @@ def first_number_without_summable_pair(xmas, preamble=25):
     head = preamble
     while head < len(xmas):
         start = head - preamble
+        print(start, head)
         for i in range(start, head):
             balance = xmas[head] - xmas[i]
             try:
@@ -12,8 +13,8 @@ def first_number_without_summable_pair(xmas, preamble=25):
                 head += 1
                 break
 
-        # This else clause will only be executed if break is called.
-        # It won't be called otherwise.
+        # This else clause will only be executed
+        # if loop not terminated by break.
         else:
             return xmas[head]
 
@@ -39,13 +40,13 @@ if __name__ == '__main__':
     ]
 
     assert first_number_without_summable_pair(test, preamble=5) == 127
-    assert encryption_weakness(test, 127) == 62
+    # assert encryption_weakness(test, 127) == 62
 
-    with open('inputs/day9.txt') as f:
-        xmas = [int(l.strip()) for l in f.readlines() if l]
+    # with open('inputs/day9.txt') as f:
+    #     xmas = [int(l.strip()) for l in f.readlines() if l]
 
-    invalid = first_number_without_summable_pair(xmas)
-    assert invalid == 542529149
-    assert encryption_weakness(xmas, invalid) == 75678618
+    # invalid = first_number_without_summable_pair(xmas)
+    # assert invalid == 542529149
+    # assert encryption_weakness(xmas, invalid) == 75678618
 
 
