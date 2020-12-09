@@ -2,13 +2,12 @@ def first_number_without_summable_pair(xmas, preamble=25):
     head = preamble
     while head < len(xmas):
         start = head - preamble
-        print(start, head)
         for i in range(start, head):
             balance = xmas[head] - xmas[i]
             try:
-                index = xmas.index(balance, start, head)
+                xmas.index(balance, start, head)
             except ValueError:
-                pass
+                continue
             else:
                 head += 1
                 break
