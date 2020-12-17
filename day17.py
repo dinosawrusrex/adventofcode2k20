@@ -112,40 +112,26 @@ if __name__ == '__main__':
         '###'
     ]
 
-    # living, dead = parse_input(test)
-    # assert len(dead) == 4
-    # assert len(living) == 5
+    living, dead = parse_input(test)
+    living, dead = run(living, dead)
+    assert len(living) == 112
 
-    # living, dead = run(living, dead, 1)
-    # assert len(living) == 11
+    living, dead = parse_input(test, True)
+    living, dead = run(living, dead, 1)
+    assert len(living) == 29
 
-    # living, dead = run(living, dead, 1)
-    # assert len(living) == 21
-
-    # living, dead = run(living, dead, 1)
-    # assert len(living) == 38
-
-    # living, dead = parse_input(test, True)
-    # living, dead = run(living, dead, 1)
-    # assert len(living) == 29
-
-    # living, dead = run(living, dead, 6)
-    # assert len(living) == 848
-
-
-    # living, dead = run(living, dead, 6)
-    # assert len(living) == 112
+    living, dead = run(living, dead, 5)
+    assert len(living) == 848
 
 
     with open('inputs/day17.txt') as f:
         seed = [l.strip() for l in f.readlines() if l]
 
-    # living, dead = parse_input(seed)
-    # living, dead = run(living, dead)
-    # assert len(living) == 317
-
+    living, dead = parse_input(seed)
+    living, dead = run(living, dead)
+    assert len(living) == 317
 
     living, dead = parse_input(seed, True)
     living, dead = run(living, dead)
-    print(len(living))
+    assert len(living) == 1692
 
